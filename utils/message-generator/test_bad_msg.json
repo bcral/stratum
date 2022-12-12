@@ -14,91 +14,12 @@
             "11) remove bitcoind data"
     ],
     "common_messages": [
-        {
-            "message": {
-                "type": "SetupConnection",
-                "protocol": "MiningProtocol",
-                "min_version": 2,
-                "max_version": 2,
-                "flags": 0,
-                "endpoint_host": "",
-                "endpoint_port": 0,
-                "vendor": "",
-                "hardware_version": "",
-                "firmware": "",
-                "device_id": ""
-            },
-            "id": "setup_connection"
-        },
-        {
-            "message": {
-                "type": "SetupConnectionSuccess",
-                "flags": 0,
-                "used_version": 2
-            },
-            "id": "setup_connection_success"
-        }
     ],
     "mining_messages": [
-        {
-            "message": {
-                "type": "OpenStandardMiningChannel",
-                "request_id": 89,
-                "user_identity": "",
-                "nominal_hash_rate": 10,
-                "max_target": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-            },
-            "id": "open_standard_minig_channel"
-        }
     ],
     "frame_builders": [
-        {
-            "type": "automatic",
-            "message_id": "setup_connection_success"
-        },
-        {
-            "type": "automatic",
-            "message_id": "setup_connection"
-        },
-        {
-            "type": "automatic",
-            "message_id": "open_standard_minig_channel"
-        }
     ],
     "actions": [
-        {
-            "message_ids": ["setup_connection"],
-            "role": "client",
-            "results": [
-                {
-                    "type": "match_message_type",
-                    "value": "0x01"
-                },
-                {
-                    "type": "match_message_type",
-                    "value": "0x1f"
-                },
-                {
-                    "type": "match_message_type",
-                    "value": "0x20"
-                }
-            ] 
-        },
-        {
-            "message_ids": ["open_standard_minig_channel"],
-            "role": "client",
-            "results": [
-                {
-                    "type": "match_message_field",
-                    "value": [
-                        "MiningProtocol",
-                        "OpenStandardMiningChannelSuccess",
-                        "request_id",
-                        {"U32": 89}
-                    ]
-                }
-            ] 
-        }
     ],
     "setup_commands": [
         {
@@ -153,11 +74,35 @@
                             "condition": true
                         }
                     ],
-                    "timer_secs": 60,
+                    "timer_secs": 10,
                     "warn_no_panic": false
                 }
             }
-        }
+        },
+        {
+            "command": "cargo",
+            "args": [
+                        "run",
+                        "-p",
+                        "translator",
+                        "--",
+                        "-c",
+                        "./roles/translator/proxy-config.toml"
+            ],
+            "conditions": {
+                "WithConditions": {
+                    "conditions": [
+                        {
+                            "output_string": "Up: Successfully Opened Extended Mining Channel",
+                            "output_location": "StdOut",
+                            "condition": true
+                        }
+                    ],
+                    "timer_secs": 10,
+                    "warn_no_panic": false
+                }
+            }
+        }    
     ],
     "execution_commands": [
     ],
@@ -171,7 +116,6 @@
     "role": "client",
     "downstream": {
         "ip": "0.0.0.0",
-        "port": 34254,
-        "pub_key": "2di19GHYQnAZJmEpoUeP7C3Eg9TCcksHr23rZCC83dvUiZgiDL"
+        "port": 34254
     }
 }

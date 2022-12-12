@@ -276,10 +276,11 @@ impl Downstream {
                 } else {
                     // If None response is received, indicates this SV1 message received from the
                     // Downstream MD is passed to the `Translator` for translation into SV2
+                    println!("`None` response received - should be passed to translator.");
                 }
             }
             Err(e) => {
-                panic!("`{:?}`", e);
+                panic!("Test panic: `{:?}`", e);
             }
         }
     }
