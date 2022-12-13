@@ -119,7 +119,7 @@
                 "WithConditions": {
                     "conditions": [
                         {
-                            "output_string": "Listening on 0.0.0.0:34254",
+                            "output_string": "Listening for encrypted connection on: 0.0.0.0:34254",
                             "output_location": "StdOut",
                             "condition": true
                         }
@@ -166,7 +166,6 @@
     "role": "client",
     "downstream": {
         "ip": "0.0.0.0",
-        "port": 34255,
-        "pub_key": "2di19GHYQnAZJmEpoUeP7C3Eg9TCcksHr23rZCC83dvUiZgiDL"
+        "port": 34255
     }
 }
