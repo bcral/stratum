@@ -16,10 +16,41 @@
     "common_messages": [
     ],
     "mining_messages": [
+        {
+            "message": {
+                "type": "SubmitSharesStandard",
+                "channel_id": 0,
+                "sequence_number": 0,
+                "job_id": 0,
+                "nonce": 0,
+                "ntime": 0,
+                "version": 0
+            },
+            "id": "submit"
+        }
     ],
     "frame_builders": [
+        {
+            "type": "automatic",
+            "message_id": "submit"
+        }
     ],
-    "actions": [
+    "actions": [    
+        {
+            "message_ids": ["submit"],
+            "role": "client",
+            "results": [
+                {
+                    "type": "match_message_field",
+                    "value": [
+                        "MiningProtocol",
+                        "SubmitSharesStandard",
+                        "job_id",
+                        {"U32": 0}
+                    ]
+                }
+            ] 
+        }
     ],
     "setup_commands": [
         {
