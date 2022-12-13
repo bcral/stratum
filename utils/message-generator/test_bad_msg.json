@@ -21,18 +21,34 @@
                 "type": "SubmitSharesStandard",
                 "channel_id": 0,
                 "sequence_number": 0,
-                "job_id": 0,
+                "job_id": 1,
                 "nonce": 0,
                 "ntime": 0,
                 "version": 0
             },
             "id": "submit"
+        },
+        {
+            "message": {
+                "type": "SubmitSharesStandard",
+                "channel_id": 0,
+                "sequence_number": 0,
+                "job_id": 2,
+                "nonce": 0,
+                "ntime": 0,
+                "version": 0
+            },
+            "id": "submit_2"
         }
     ],
     "frame_builders": [
         {
             "type": "automatic",
             "message_id": "submit"
+        },
+        {
+            "type": "automatic",
+            "message_id": "submit_2"
         }
     ],
     "actions": [    
@@ -46,7 +62,22 @@
                         "MiningProtocol",
                         "SubmitSharesStandard",
                         "job_id",
-                        {"U32": 0}
+                        {"U32": 1}
+                    ]
+                }
+            ] 
+        },
+        {
+            "message_ids": ["submit_2"],
+            "role": "client",
+            "results": [
+                {
+                    "type": "match_message_field",
+                    "value": [
+                        "MiningProtocol",
+                        "SubmitSharesStandard",
+                        "job_id",
+                        {"U32": 2}
                     ]
                 }
             ] 
