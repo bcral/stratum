@@ -14,71 +14,59 @@
             "11) remove bitcoind data"
     ],
     "common_messages": [
-    ],
-    "mining_messages": [
         {
             "message": {
-                "type": "SubmitSharesStandard",
-                "channel_id": 0,
-                "sequence_number": 0,
-                "job_id": 1,
-                "nonce": 0,
-                "ntime": 0,
-                "version": 0
+                "type": "SetupConnection",
+                "protocol": "MiningProtocol",
+                "min_version": 2,
+                "max_version": 2,
+                "flags": 0,
+                "endpoint_host": "",
+                "endpoint_port": 0,
+                "vendor": "",
+                "hardware_version": "",
+                "firmware": "",
+                "device_id": ""
             },
-            "id": "submit"
+            "id": "setup_connection"
         },
         {
             "message": {
-                "type": "SubmitSharesStandard",
-                "channel_id": 0,
-                "sequence_number": 0,
-                "job_id": 2,
-                "nonce": 0,
-                "ntime": 0,
-                "version": 0
+                "type": "SetupConnectionSuccess",
+                "flags": 0,
+                "used_version": 2
             },
-            "id": "submit_2"
+            "id": "setup_connection_success"
         }
+    ],
+    "mining_messages": [
     ],
     "frame_builders": [
         {
             "type": "automatic",
-            "message_id": "submit"
+            "message_id": "setup_connection_success"
         },
         {
             "type": "automatic",
-            "message_id": "submit_2"
+            "message_id": "setup_connection"
         }
     ],
-    "actions": [    
+    "actions": [
         {
-            "message_ids": ["submit"],
+            "message_ids": ["setup_connection"],
             "role": "client",
             "results": [
                 {
-                    "type": "match_message_field",
-                    "value": [
-                        "MiningProtocol",
-                        "SubmitSharesStandard",
-                        "job_id",
-                        {"U32": 1}
-                    ]
-                }
-            ] 
-        },
-        {
-            "message_ids": ["submit_2"],
-            "role": "client",
-            "results": [
+                    "type": "match_message_type",
+                    "value": "0x01"
+                },
                 {
-                    "type": "match_message_field",
-                    "value": [
-                        "MiningProtocol",
-                        "SubmitSharesStandard",
-                        "job_id",
-                        {"U32": 2}
-                    ]
+                    "type": "match_message_type",
+                    "value": "0x1f"
+                },
+                {
+                    "type": "match_message_type",
+                    "value": "0x20"
                 }
             ] 
         }
@@ -178,6 +166,7 @@
     "role": "client",
     "downstream": {
         "ip": "0.0.0.0",
-        "port": 34254
+        "port": 34255,
+        "pub_key": "2di19GHYQnAZJmEpoUeP7C3Eg9TCcksHr23rZCC83dvUiZgiDL"
     }
 }
