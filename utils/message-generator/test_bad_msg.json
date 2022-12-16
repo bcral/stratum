@@ -32,6 +32,22 @@
         },
         {
             "message": {
+                "type": "SetupConnection",
+                "protocol": "MiningProtocol",
+                "min_version": 2,
+                "max_version": 2,
+                "flags": 0,
+                "endpoint_host": "",
+                "endpoint_port": 0,
+                "vendor": "",
+                "hardware_version": "",
+                "firmware": "",
+                "device_id": ""
+            },
+            "id": "setup_connection_2"
+        },
+        {
+            "message": {
                 "type": "SetupConnectionSuccess",
                 "flags": 0,
                 "used_version": 2
@@ -49,6 +65,10 @@
         {
             "type": "automatic",
             "message_id": "setup_connection"
+        },
+        {
+            "type": "automatic",
+            "message_id": "setup_connection_2"
         }
     ],
     "actions": [
@@ -56,103 +76,16 @@
             "message_ids": ["setup_connection"],
             "role": "client",
             "results": [
-                {
-                    "type": "match_message_type",
-                    "value": "0x01"
-                },
-                {
-                    "type": "match_message_type",
-                    "value": "0x1f"
-                },
-                {
-                    "type": "match_message_type",
-                    "value": "0x20"
-                }
+            ] 
+        },
+        {
+            "message_ids": ["setup_connection_2"],
+            "role": "client",
+            "results": [
             ] 
         }
     ],
     "setup_commands": [
-        {
-            "command": "/home/brent/code/bitcoin_stuff/bitcoin/src/bitcoind",
-            "args": ["--regtest"],
-            "conditions": {
-                "WithConditions": {
-                    "conditions": [
-                        {
-                            "output_string": "sv2 thread start",
-                            "output_location": "StdOut",
-                            "condition": true
-                        },
-                        {
-                            "output_string": "",
-                            "output_location": "StdErr",
-                            "condition": false
-                        }
-                    ],
-                    "timer_secs": 10,
-                    "warn_no_panic": false
-                }
-            }
-        },
-        {
-            "command": "/home/brent/code/bitcoin_stuff/bitcoin/src/bitcoin-cli",
-            "args": [
-                        "--regtest",
-                        "--datadir=./test/appdata/bitcoin_data/",
-                        "generatetoaddress",
-                        "16",
-                        "bcrt1qttuwhmpa7a0ls5kr3ye6pjc24ng685jvdrksxx"
-            ],
-            "conditions": "None"
-        },
-        {
-            "command": "cargo",
-            "args": [
-                        "run",
-                        "-p",
-                        "pool",
-                        "--",
-                        "-c",
-                        "./roles/v2/pool/pool-config.toml"
-            ],
-            "conditions": {
-                "WithConditions": {
-                    "conditions": [
-                        {
-                            "output_string": "Listening for encrypted connection on: 0.0.0.0:34254",
-                            "output_location": "StdOut",
-                            "condition": true
-                        }
-                    ],
-                    "timer_secs": 10,
-                    "warn_no_panic": false
-                }
-            }
-        },
-        {
-            "command": "cargo",
-            "args": [
-                        "run",
-                        "-p",
-                        "translator",
-                        "--",
-                        "-c",
-                        "./roles/translator/proxy-config.toml"
-            ],
-            "conditions": {
-                "WithConditions": {
-                    "conditions": [
-                        {
-                            "output_string": "Up: Successfully Opened Extended Mining Channel",
-                            "output_location": "StdOut",
-                            "condition": true
-                        }
-                    ],
-                    "timer_secs": 10,
-                    "warn_no_panic": false
-                }
-            }
-        }    
     ],
     "execution_commands": [
     ],
