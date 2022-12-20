@@ -233,7 +233,7 @@ impl Bridge {
                         .unwrap();
                 } else {
                     error!("NewExtendedMiningJob and SetNewPrevHash job ids mismatch");
-                    panic!("NewExtendedMiningJob and SetNewPrevHash job ids mismatch");
+                    // panic!("NewExtendedMiningJob and SetNewPrevHash job ids mismatch");
                 }
             }
         });
@@ -329,7 +329,7 @@ impl Bridge {
                             .unwrap();
                     } else {
                         error!("NewExtendedMiningJob and SetNewPrevHash job ids mismatch");
-                        panic!("NewExtendedMiningJob and SetNewPrevHash job ids mismatch");
+                        // panic!("NewExtendedMiningJob and SetNewPrevHash job ids mismatch");
                     }
                 }
             }

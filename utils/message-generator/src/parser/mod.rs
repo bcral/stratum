@@ -161,6 +161,13 @@ impl<'a> Parser<'a> {
                         };
                         (Some(upstream), Some(downstream))
                     }
+                    // Create "None" case for testing without a message generator role
+                    "None" => {
+                        (
+                            None,
+                            None,
+                        )
+                    }
                     role @ _ => panic!("Unknown role: {}", role),
                 };
 
