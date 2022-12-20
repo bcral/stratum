@@ -6,7 +6,7 @@
             "3) launch SRI pool and wait for initialization",
             "4) launch TProxy and wait for initialization with pool",
             "5) launch cpuminer instance on 'downstream' TProxy port",
-            "6) wait for cpuminer to submit a hash"
+            "6) wait for cpuminer to send a mining.notify message"
     ],
     "common_messages": [
     ],
@@ -102,23 +102,20 @@
             "command": "./test/bin/minerd",
             "args": [
                         "-o",
-                        "stratum+tcp://0.0.0.0:34255",
+                        "stratum+tcp://localhost:34255",
                         "-t",
                         "1",
                         "-q",
                         "-D",
-                        "-P"
+                        "-P",
+                        "-a",
+                        "sha256d"
             ],
             "conditions": {
                 "WithConditions": {
                     "conditions": [
                         {
-                            "output_string": "Starting Stratum on stratum+tcp://0.0.0.0:34255",
-                            "output_location": "StdErr",
-                            "condition": true
-                        },
-                        {
-                            "output_string": "thread 0: ",
+                            "output_string": "\"method\":\"mining.notify\"",
                             "output_location": "StdErr",
                             "condition": true
                         }
