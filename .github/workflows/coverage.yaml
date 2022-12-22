@@ -16,9 +16,9 @@ name: Test Coverage
 
 on:
   push:
-    branches: [ main ]
+    branches: [ WIP_mg_actions_bug ]
   pull_request:
-    branches: [ main ]
+    branches: [ WIP_mg_actions_bug ]
 
 jobs:
   test:

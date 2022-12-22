@@ -1,10 +1,10 @@
 on:
   push:
     branches:
-      - main
+      - WIP_mg_actions_bug
   pull_request:
     branches:
-      - main
+      - WIP_mg_actions_bug
 
 name: Clippy Lint
 

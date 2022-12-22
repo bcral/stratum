@@ -1,36 +1,29 @@
 on:
   push:
-    branches:
-      - WIP_mg_actions_bug
+    branches: [ WIP_mg_actions_bug ]
   pull_request:
-    branches:
-      - WIP_mg_actions_bug
+    branches: [ WIP_mg_actions_bug ]
 
-name: Rustfmt
+name: message generator check
 
 jobs:
-  fmt:
+  message_generator_check:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: 
-          - macos-latest
           - ubuntu-latest
         include:
-          - os: macos-latest
-            target: x86_64-apple-darwin
           - os: ubuntu-latest
             target: x86_64-unknown-linux-musl
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
+
         with:
           profile: minimal
-          toolchain: nightly
+          toolchain: 1.57.0
           override: true
-          components: rustfmt
-      - uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+      - name: Run message generator tests
+        run: sh ./message-generator-tests.sh
