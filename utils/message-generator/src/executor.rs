@@ -117,11 +117,15 @@ impl Executor {
             for result in &action.result {
                 // let message = recv.recv().await.unwrap();
                 // let mut message: Sv2Frame<AnyMessage<'static>, _> = message.try_into().unwrap();
-                println!("reciever count = {:?}", sender.receiver_count());
-                println!("sender count = {:?}",recv.sender_count());
+                println!("reciever count 1 = {:?}", sender.receiver_count());
+                println!("sender count 1 = {:?}",recv.sender_count());
                 let message = match recv.recv().await {
                     Ok(mes) => mes,
-                    Err(error) => panic!("placeholder error = {:?}", error)
+                    Err(error) => {
+                        println!("reciever count 2 = {:?}", sender.receiver_count());
+                        println!("sender count 2 = {:?}",recv.sender_count());
+                        panic!("placeholder error = {:?}", error)
+                    }
                 };
                 let mut message: Sv2Frame<AnyMessage<'static>, _> = message.try_into().unwrap();
                 println!("RECV {:?}", message);
