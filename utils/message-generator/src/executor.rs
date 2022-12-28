@@ -115,7 +115,12 @@ impl Executor {
                 }
             }
             for result in &action.result {
-                let message = recv.recv().await.unwrap();
+                // let message = recv.recv().await.unwrap();
+                // let mut message: Sv2Frame<AnyMessage<'static>, _> = message.try_into().unwrap();
+                let message = match recv.recv().await {
+                    Ok(mes) => mes,
+                    Err(error) => panic!("placeholder error = {:?}", error)
+                };
                 let mut message: Sv2Frame<AnyMessage<'static>, _> = message.try_into().unwrap();
                 println!("RECV {:?}", message);
                 let header = message.get_header().unwrap();
