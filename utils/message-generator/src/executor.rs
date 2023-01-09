@@ -116,14 +116,10 @@ impl Executor {
             }
             for result in &action.result {
                 // let message = recv.recv().await.unwrap();
-                println!("reciever count 1 = {:?}", sender.receiver_count());
-                println!("sender count 1 = {:?}", recv.sender_count());
                 let message = match recv.recv().await {
                     Ok(mes) => mes,
                     Err(error) => {
-                        println!("reciever count 2 = {:?}", sender.receiver_count());
-                        println!("sender count 2 = {:?}", recv.sender_count());
-                        panic!("placeholder error = {:?}", error)
+                        panic!("Failed to receive message from Upstream or Downstream = {:?}", error)
                     }
                 };
                 let mut message: Sv2Frame<AnyMessage<'static>, _> = message.try_into().unwrap();
