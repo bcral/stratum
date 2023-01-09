@@ -16,14 +16,13 @@ async fn connect(address: SocketAddr, handicap: u32) {
     let stream = TcpStream::connect(address).await.unwrap();
     let (receiver, sender): (Receiver<EitherFrame>, Sender<EitherFrame>) =
         PlainConnection::new(stream, 10).await;
-    Device::start(receiver, sender, address, handicap).await
+    Device::start(receiver, sender, address, handicap).await;
+    println!("Connected with handicap: {:?}", handicap);
 }
 
 #[async_std::main]
 async fn main() {
-    println!("mining-device - begin main");
     let socket = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 34255);
-    println!("mining-device - spawn connection tasks");
     task::spawn(async move { connect(socket, 10000).await });
     task::spawn(async move { connect(socket, 11070).await });
     task::spawn(async move { connect(socket, 7040).await });
@@ -93,7 +92,7 @@ impl SetupConnectionHandler {
         let sv2_frame = sv2_frame.into();
         match sender.send(sv2_frame).await {
             Ok(frame) => frame,
-            Err(_) => panic!("Send failed")
+            Err(err) => panic!("Send failed: {:?}", err)
         }
 
         let mut incoming: StdFrame = receiver.recv().await.unwrap().try_into().unwrap();
