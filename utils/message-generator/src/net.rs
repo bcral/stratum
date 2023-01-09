@@ -24,12 +24,14 @@ pub async fn setup_as_upstream<
 ) -> (Receiver<EitherFrame<Message>>, Sender<EitherFrame<Message>>) {
     let listner = TcpListener::bind(socket).await.unwrap();
     for command in execution_commands {
+        println!("Begin os_command");
         let child = os_command(
             &command.command,
             command.args.iter().map(String::as_str).collect(),
             command.conditions,
         )
         .await;
+        println!("End os_command");
         childs.push(child);
     }
     let (stream, _) = listner.accept().await.unwrap();
