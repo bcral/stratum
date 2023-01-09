@@ -19,6 +19,23 @@
         }
     ],
     "setup_commands": [
+        {
+            "command": "lsof",
+            "args": ["-i", ":34255"],
+            "conditions": {
+                "WithConditions": {
+                    "conditions": [
+                        {
+                            "output_string": "",
+                            "output_location": "StdOut",
+                            "condition": true
+                        }
+                    ],
+                    "timer_secs": 30,
+                    "warn_no_panic": true
+                }
+            }
+        }
     ],
     "execution_commands": [
         {
