@@ -10,6 +10,8 @@ use network_helpers::{
 };
 use std::net::SocketAddr;
 use tokio::net::{TcpListener, TcpStream};
+use std::thread;
+use std::time::Duration;
 
 pub async fn setup_as_upstream<
     'a,
@@ -20,6 +22,12 @@ pub async fn setup_as_upstream<
     execution_commands: Vec<Command>,
     childs: &mut Vec<Option<tokio::process::Child>>,
 ) -> (Receiver<EitherFrame<Message>>, Sender<EitherFrame<Message>>) {
+    thread::spawn(move || async move
+        {
+            let listner2 = TcpListener::bind(socket).await.unwrap();
+            thread::sleep(Duration::from_secs(1000));
+        }
+    );
     let listner = TcpListener::bind(socket).await.unwrap();
     for command in execution_commands {
         let child = os_command(
