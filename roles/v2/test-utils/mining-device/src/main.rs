@@ -21,7 +21,9 @@ async fn connect(address: SocketAddr, handicap: u32) {
 
 #[async_std::main]
 async fn main() {
+    println!("mining-device - begin main");
     let socket = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 34255);
+    println!("mining-device - spawn connection tasks");
     task::spawn(async move { connect(socket, 10000).await });
     task::spawn(async move { connect(socket, 11070).await });
     task::spawn(async move { connect(socket, 7040).await });
@@ -89,7 +91,10 @@ impl SetupConnectionHandler {
             .try_into()
             .unwrap();
         let sv2_frame = sv2_frame.into();
-        sender.send(sv2_frame).await.unwrap();
+        match sender.send(sv2_frame).await {
+            Ok(frame) => frame,
+            Err(_) => panic!("Send failed")
+        }
 
         let mut incoming: StdFrame = receiver.recv().await.unwrap().try_into().unwrap();
         let message_type = incoming.get_header().unwrap().msg_type();
