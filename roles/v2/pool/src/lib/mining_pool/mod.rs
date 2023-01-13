@@ -81,7 +81,10 @@ impl Downstream {
         task::spawn(async move {
             debug!("Starting up downstream receiver");
             loop {
-                let receiver = cloned.safe_lock(|d| d.receiver.clone()).unwrap();
+                let receiver = match cloned.safe_lock(|d| d.receiver.clone()) {
+                    Ok(rec) => rec,
+                    Err(err) => panic!("err = {:?}", err)
+                };
                 match receiver.recv().await {
                     Ok(received) => {
                         let received: Result<StdFrame, _> = received.try_into();

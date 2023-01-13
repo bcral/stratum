@@ -117,6 +117,7 @@ impl Executor {
                 println!("sender after = {:?}", recv.sender_count());
             }
             for result in &action.result {
+                println!("results = {:?}", action.result); 
                 let message = match recv.recv().await {
                     Ok(mes) => mes,
                     Err(er) => panic!("recv() failed = {:?}", er)
