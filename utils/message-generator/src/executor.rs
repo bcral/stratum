@@ -108,14 +108,19 @@ impl Executor {
                 Role::Proxy => panic!("Action can be either executed as Downstream or Upstream"),
             };
             for message in action.messages {
+                println!("sender before = {:?}", recv.sender_count());
                 println!("SEND {:#?}", message);
                 match sender.send(message).await {
                     Ok(_) => (),
                     Err(_) => panic!(),
                 }
+                println!("sender after = {:?}", recv.sender_count());
             }
             for result in &action.result {
-                let message = recv.recv().await.unwrap();
+                let message = match recv.recv().await {
+                    Ok(mes) => mes,
+                    Err(er) => panic!("recv() failed = {:?}", er)
+                };
                 let mut message: Sv2Frame<AnyMessage<'static>, _> = message.try_into().unwrap();
                 println!("RECV {:#?}", message);
                 let header = message.get_header().unwrap();
@@ -445,6 +450,7 @@ impl Executor {
                     }
                     ActionResult::None => todo!(),
                 }
+                println!("sender after recv iter = {:?}", recv.sender_count());
             }
         }
         for command in self.cleanup_commmands {
