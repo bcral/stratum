@@ -70,10 +70,6 @@
                 {
                     "type": "match_message_type",
                     "value": "0x01"
-                },
-                {
-                    "type": "match_message_type",
-                    "value": "0x20"
                 }
             ] 
         },
@@ -82,13 +78,51 @@
             "role": "client",
             "results": [
                 {
+                    "type": "match_message_field",
+                    "value": [
+                        "MiningProtocol",
+                        "OpenStandardMiningChannelSuccess",
+                        "request_id",
+                        {"U32": 89}
+                    ]
+                },
+                {
                     "type": "match_message_type",
-                    "value": "0x11"
+                    "value": "0x20"
+                },
+                {
+                    "type": "match_message_type",
+                    "value": "0x1f"
                 }
             ] 
         }
+        
     ],
     "setup_commands": [
+        {
+            "command": "cargo",
+            "args": [
+                        "run",
+                        "-p",
+                        "pool",
+                        "--",
+                        "-c",
+                        "./roles/v2/pool/pool-config.toml"
+            ],
+            "conditions": {
+                "WithConditions": {
+                    "conditions": [
+                        {
+                            "output_string": "Listening for encrypted connection on: 0.0.0.0:34254",
+                            "output_location": "StdOut",
+                            "condition": true
+                        }
+                    ],
+                    "timer_secs": 60,
+                    "warn_no_panic": false
+                }
+            }
+        }
     ],
     "execution_commands": [
     ],
