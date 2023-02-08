@@ -38,15 +38,15 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
 
+
+      - name: Run mg codecov tests
+        run: bash ./mg-codecov-tests.sh
         with:
           toolchain: 1.60.0
           override: true
 
-      - name: Run mg codecov test
-        run: sh ./mg-codecov-tests.sh
-
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v2
         with:
-          files: cobertura.xml,./test/message-generator/test/cov/mg_coverage.xml
+          files: cobertura.xml,./test/message-generator/test/cov/mg_pool_coverage.xml
           fail_ci_if_error: true
