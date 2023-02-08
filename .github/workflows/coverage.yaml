@@ -35,7 +35,19 @@ jobs:
         run: |
           cargo +nightly tarpaulin --verbose --features prop_test noise_sv2 fuzz with_buffer_pool async_std debug tokio with_tokio derive_codec_sv2 binary_codec_sv2 default core --lib --exclude-files examples/*,utils/message-generator/* --timeout 120 --fail-under 30 --out Xml
 
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+
+        with:
+          profile: stable
+          toolchain: 1.60.0
+          override: true
+
+      - name: Run mg codecov test
+        run: sh ./mg-codecov-tests.sh
+
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v2
         with:
+          files: cobertura.xml,./test/message-generator/test/cov/mg_coverage.xml
           fail_ci_if_error: true
