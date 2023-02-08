@@ -39,7 +39,6 @@ jobs:
       - uses: actions-rs/toolchain@v1
 
         with:
-          profile: stable
           toolchain: 1.60.0
           override: true
 
