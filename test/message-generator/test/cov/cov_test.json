@@ -103,6 +103,7 @@
         {
             "command": "cargo",
             "args": [
+                        "+nightly",
                         "llvm-cov",
                         "--no-report",
                         "run",
@@ -133,6 +134,7 @@
         {
             "command": "cargo",
             "args": [
+                    "+nightly",
                     "llvm-cov",
                     "--ignore-filename-regex",
                     "utils/|experimental/|protocols/",
