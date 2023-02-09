@@ -103,7 +103,7 @@
         {
             "command": "cargo",
             "args": [
-                        "+stable",
+                        "+nightly",
                         "llvm-cov",
                         "--no-report",
                         "run",
