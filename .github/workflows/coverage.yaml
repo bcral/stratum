@@ -45,6 +45,9 @@ jobs:
         run: |
           cargo +nightly tarpaulin --verbose --features prop_test noise_sv2 fuzz with_buffer_pool async_std debug tokio with_tokio derive_codec_sv2 binary_codec_sv2 default core --lib --exclude-files examples/*,utils/message-generator/* --timeout 120 --fail-under 30 --out Xml
 
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-co
+  
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
 
