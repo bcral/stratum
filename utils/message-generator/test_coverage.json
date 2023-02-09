@@ -115,7 +115,19 @@
                     "target/tmp/pool_translator_coverage.txt",
                     "report"
             ],
-            "conditions": "None"
+            "conditions": {
+                "WithConditions": {
+                    "conditions": [
+                        {
+                            "output_string": "Finished report saved to ",
+                            "output_location": "StdErr",
+                            "condition": true
+                        }
+                    ],
+                    "timer_secs": 60,
+                    "warn_no_panic": false
+                }
+            }
         }
     ],
     "role": "client",
