@@ -140,7 +140,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "test/message-generator/test/cov/mg_pool_coverage.xml",
+                    "target/tmp/mg_pool_coverage.xml",
                     "report"
             ],
             "conditions": {
