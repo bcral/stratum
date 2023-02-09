@@ -11,7 +11,7 @@
 # --timeout 120: If unresponsive for 120 seconds, action will fail
 # --fail-under 40: If code coverage is less than 40%, action will fail
 # --out Xml: Required for codecov.io to generate coverage result
-# test/message-generator/test/cov/cov_test.json is run for MG coverage of the pool role.
+# test/message-generator/test/cov/cov_test.json is run for MG coverage of the
 
 name: Test Coverage
 
@@ -24,7 +24,7 @@ on:
 jobs:
   test:
     name: Test Coverage
-        runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: 
@@ -33,31 +33,29 @@ jobs:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-musl
 
-          container:
-            image: xd009642/tarpaulin:develop-nightly
-            options: --security-opt seccomp=unconfined
+    container:
+      image: xd009642/tarpaulin:develop-nightly
+      options: --security-opt seccomp=unconfined
 
-          steps:
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-            - name: Checkout repository
-              uses: actions/checkout@v2
+      - name: Generate code coverage
+        run: |
+          cargo +nightly tarpaulin --verbose --features prop_test noise_sv2 fuzz with_buffer_pool async_std debug tokio with_tokio derive_codec_sv2 binary_codec_sv2 default core --lib --exclude-files examples/*,utils/message-generator/* --timeout 120 --fail-under 30 --out Xml
 
-            - name: Generate code coverage
-              run: |
-                cargo +nightly tarpaulin --verbose --features prop_test noise_sv2 fuzz with_buffer_pool async_std debug tokio with_tokio derive_codec_sv2 binary_codec_sv2 default core --lib --exclude-files examples/*,utils/message-generator/* --timeout 120 --fail-under 30 --out Xml
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
 
-            - uses: actions/checkout@v2
-            - uses: actions-rs/toolchain@v1
+      - name: Run mg codecov tests
+        run: sh ./mg-codecov-tests.sh
+        with:
+          toolchain: 1.60.0
+          override: true
 
-              with:
-                toolchain: 1.60.0
-                override: true
-
-            - name: Run mg codecov tests
-              run: sh ./mg-codecov-tests.sh
-
-            - name: Upload to codecov.io
-              uses: codecov/codecov-action@v2
-              with:
-                files: cobertura.xml,./target/tmp/mg_pool_coverage.xml
-                fail_ci_if_error: true
+      - name: Upload to codecov.io
+        uses: codecov/codecov-action@v2
+        with:
+          files: cobertura.xml,./target/tmp/mg_pool_coverage.xml
+          fail_ci_if_error: true
