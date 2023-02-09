@@ -51,12 +51,11 @@ jobs:
       - name: Install llvm-cov deps
         run: rustup toolchain install nightly --component llvm-tools-preview
 
-
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
 
         with:
-          toolchain: 1.60.0
+          toolchain: stable
           override: true
       - name: Run mg codecov tests
         run: sh ./mg-codecov-tests.sh
