@@ -45,11 +45,12 @@ jobs:
         run: |
           cargo +nightly tarpaulin --verbose --features prop_test noise_sv2 fuzz with_buffer_pool async_std debug tokio with_tokio derive_codec_sv2 binary_codec_sv2 default core --lib --exclude-files examples/*,utils/message-generator/* --timeout 120 --fail-under 30 --out Xml
 
-      - name: Install cargo-llvm-cov and dependencies
-        run: |
-          rustup toolchain install nightly --component llvm-tools-preview
-          taiki-e/install-action@cargo-llvm-cov
+      - name: Install cargo-llvm-cov dependencies
+        run: rustup toolchain install nightly --component llvm-tools-preview
 
+      - name: Install cargo-llvm-cov
+        run: curl -LsSf https://github.com/taiki-e/cargo-llvm-cov/releases/latest/download/cargo-llvm-cov-x86_64-unknown-linux-gnu.tar.gz | tar xzf - -C ~/.cargo/bin
+      
 
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
