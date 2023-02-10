@@ -134,7 +134,7 @@
         {
             "command": "cargo",
             "args": [
-                    "+stable",
+                    "+nightly",
                     "llvm-cov",
                     "--ignore-filename-regex",
                     "utils/|experimental/|protocols/",
