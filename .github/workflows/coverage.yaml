@@ -1,5 +1,5 @@
-# Performs test coverage of project's libraries using cargo-tarpaulin and message-generator, then 
-# generates results using codecov.io.
+# Performs test coverage of project's libraries using cargo-tarpaulin and generates results using
+# codecov.io.
 # The follow flags are used when executing cargo-tarpaulin:
 # -- features: Includes the code with the listed features. The following features result in a
 #    tarpaulin error and are NOT included: derive, alloc, arbitrary-derive, attributes, and
@@ -11,7 +11,6 @@
 # --timeout 120: If unresponsive for 120 seconds, action will fail
 # --fail-under 40: If code coverage is less than 40%, action will fail
 # --out Xml: Required for codecov.io to generate coverage result
-# test/message-generator/test/cov/cov_test.json is run for MG coverage of the
 
 name: Test Coverage
 
@@ -22,21 +21,12 @@ on:
     branches: [ main ]
 
 jobs:
-  codecov_test:
+  test:
     name: Test Coverage
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: 
-          - ubuntu-20.04
-        include:
-          - os: ubuntu-20.04
-            target: x86_64-unknown-linux-gnu
-
+    runs-on: ubuntu-latest
     container:
       image: xd009642/tarpaulin:develop-nightly
       options: --security-opt seccomp=unconfined
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -44,27 +34,7 @@ jobs:
       - name: Generate code coverage
         run: |
           cargo +nightly tarpaulin --verbose --features prop_test noise_sv2 fuzz with_buffer_pool async_std debug tokio with_tokio derive_codec_sv2 binary_codec_sv2 default core --lib --exclude-files examples/*,utils/message-generator/* --timeout 120 --fail-under 30 --out Xml
-
-      - name: Install cargo-llvm-cov
-        uses: taiki-e/install-action@cargo-llvm-cov
-
-      - name: Install llvm-cov deps
-        run: | 
-          rustup toolchain install nightly --component llvm-tools-preview
-          apt-get update
-          apt install build-essential
-
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-
-        with:
-          toolchain: nightly
-          override: true
-      - name: Run mg codecov tests
-        run: sh ./mg-codecov-tests.sh
-
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v2
         with:
-          files: cobertura.xml,./target/tmp/mg_pool_coverage.xml
           fail_ci_if_error: true
