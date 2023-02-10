@@ -13,7 +13,7 @@
 # --out Xml: Required for codecov.io to generate coverage result
 # test/message-generator/test/cov/cov_test.json is run for MG coverage of the
 
-name: Test Coverage
+name: MG Test Coverage
 
 on:
   push:
@@ -23,7 +23,7 @@ on:
 
 jobs:
   codecov_test:
-    name: Test Coverage
+    name: MG Test Coverage
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -51,5 +51,5 @@ jobs:
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v2
         with:
-          files: cobertura.xml,./target/tmp/mg_pool_coverage.xml
+          files: cobertura.xml,./target/mg_pool_coverage.xml
           fail_ci_if_error: true
