@@ -35,6 +35,12 @@ jobs:
         run: |
           cargo +nightly tarpaulin --verbose --features prop_test noise_sv2 fuzz with_buffer_pool async_std debug tokio with_tokio derive_codec_sv2 binary_codec_sv2 default core --lib --exclude-files examples/*,utils/message-generator/* --timeout 120 --fail-under 30 --out Xml
 
+      - name: Archive Tarpaulin code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: tarpaulin-coverage-report
+          path: cobertura.xml
+
   message-generator-test:
     needs: tarpaulin-test
 
@@ -56,6 +62,12 @@ jobs:
       - name: Run mg codecov tests
         run: sh ./mg-codecov-tests.sh
 
+      - name: Archive MG code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: mg-coverage-report
+          path: target/mg_pool_coverage.xml
+
   codecov:
     needs: message-generator-test
 
@@ -63,6 +75,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v2
         with:
