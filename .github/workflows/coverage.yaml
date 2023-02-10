@@ -33,6 +33,10 @@ jobs:
           - os: ubuntu-20.04
             target: x86_64-unknown-linux-gnu
 
+    container:
+      image: xd009642/tarpaulin:develop-nightly
+      options: --security-opt seccomp=unconfined
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
