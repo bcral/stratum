@@ -62,11 +62,14 @@ jobs:
       - name: Run mg codecov tests
         run: sh ./mg-codecov-tests.sh
 
+      - name: Display structure of current directory
+        run: ls -R
+
       - name: Archive MG code coverage results
         uses: actions/upload-artifact@v3
         with:
           name: mg-coverage-report
-          path: mg_pool_coverage.xml
+          path: target/mg_pool_coverage.xml
 
   codecov:
     needs: message-generator-test
