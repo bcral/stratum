@@ -138,7 +138,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "target/mg_pool_coverage.xml",
+                    "target/cobertura.xml",
                     "report"
             ],
             "conditions": {
