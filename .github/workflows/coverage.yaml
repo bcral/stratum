@@ -63,7 +63,7 @@ jobs:
         run: rustc -Vv
 
       - name: Install Rust with llvm-tools-preview
-        run: rustup toolchain install stable --component llvm-tools-preview
+        run: rustup toolchain install --component llvm-tools-preview
 
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
