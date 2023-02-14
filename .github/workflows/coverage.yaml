@@ -63,7 +63,7 @@ jobs:
           override: true
 
       - name: Check local versions
-        uses: rustc --version --verbose
+        run: rustc --version --verbose
       
       - name: Run mg codecov tests
         run: sh ./mg-codecov-tests.sh
