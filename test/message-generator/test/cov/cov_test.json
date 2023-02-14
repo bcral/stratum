@@ -136,9 +136,9 @@
                     "llvm-cov",
                     "--ignore-filename-regex",
                     "utils/|experimental/|protocols/",
-                    "--json",
+                    "--cobertura",
                     "--output-path",
-                    "target/cov.json",
+                    "target/cobertura.xml",
                     "report"
             ],
             "conditions": {
