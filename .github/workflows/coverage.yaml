@@ -51,19 +51,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.60.0
+          override: true
+
       - name: Install Rust with llvm-tools-preview
-        run: rustup toolchain install nightly --component llvm-tools-preview
+        run: rustup toolchain install --component llvm-tools-preview
 
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
-
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          override: true
-
-      - name: Check local versions
-        run: rustc --version --verbose
       
       - name: Run mg codecov tests
         run: sh ./mg-codecov-tests.sh
