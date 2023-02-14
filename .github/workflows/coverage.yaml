@@ -56,7 +56,7 @@ jobs:
 
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
+          toolchain: 1.60.0
           override: true
 
       - name: Log data from rustc 2
