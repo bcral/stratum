@@ -58,10 +58,13 @@ jobs:
         uses: taiki-e/install-action@cargo-llvm-cov
 
       - uses: actions-rs/toolchain@v1
-
         with:
           toolchain: nightly
           override: true
+
+      - name: Check local versions
+        uses: rustc --version --verbose
+      
       - name: Run mg codecov tests
         run: sh ./mg-codecov-tests.sh
 
