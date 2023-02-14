@@ -22,7 +22,6 @@ on:
 
 jobs:
   tarpaulin-test:
-    needs: message-generator-test
 
     name: Tarpaulin Test
     runs-on: ubuntu-latest
@@ -44,7 +43,7 @@ jobs:
           path: cobertura.xml
 
   message-generator-test:
-    # needs: tarpaulin-test
+    needs: tarpaulin-test
 
     name: MG Test
     runs-on: ubuntu-latest
@@ -86,8 +85,7 @@ jobs:
         run: rustc -Vv
 
   codecov:
-    # needs: message-generator-test
-    needs: tarpaulin-test
+    needs: message-generator-test
 
     name: Codecov Upload
     runs-on: ubuntu-latest
