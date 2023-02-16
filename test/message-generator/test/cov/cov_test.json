@@ -63,7 +63,8 @@
                     "type": "match_message_type",
                     "value": "0x01"
                 }
-            ] 
+            ],
+            "actiondoc": ""
         },
         {
             "message_ids": ["open_standard_mining_channel"],
@@ -86,7 +87,8 @@
                     "type": "match_message_type",
                     "value": "0x1f"
                 }
-            ] 
+            ],
+            "actiondoc": ""
         }
         
     ],
