@@ -73,11 +73,8 @@ jobs:
       - name: Log data from rustc 3
         run: rustc -Vv
 
-      # - name: Run mg codecov tests
-      #   run: sh ./mg-codecov-tests.sh
-
-      - name: Run just pool command
-        run: cargo run -p pool -- -c ./test/config/pool-config-sri-tp.toml
+      - name: Run mg codecov tests
+        run: sh ./mg-codecov-tests.sh
 
       - name: Archive MG code coverage results
         uses: actions/upload-artifact@v3
