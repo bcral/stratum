@@ -37,8 +37,7 @@ fn new_pub_key() -> PublicKey {
 }
 use tokio::{select, task};
 
-use crate::lib::job_negotiator::JobNegotiator;
-use crate::status::Status;
+use crate::{lib::job_negotiator::JobNegotiator, status::Status};
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct Configuration {
@@ -179,10 +178,10 @@ async fn main() {
             interrupt_signal = tokio::signal::ctrl_c() => {
                 match interrupt_signal {
                     Ok(()) => {
-                        println!("Interrupt received!");
+                        info!("Interrupt received");
                     },
                     Err(err) => {
-                        eprintln!("Unable to listen for interrupt signal: {}", err);
+                        error!("Unable to listen for interrupt signal: {}", err);
                         // we also shut down in case of error
                     },
                 }

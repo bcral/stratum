@@ -13,12 +13,12 @@ use roles_logic_sv2::utils::Mutex;
 const SELF_EXTRNONCE_LEN: usize = 2;
 
 use async_channel::{bounded, unbounded};
+use futures::{select, FutureExt};
 use std::{
     net::{IpAddr, SocketAddr},
     str::FromStr,
     sync::Arc,
 };
-use futures::{FutureExt, select};
 
 use tokio::sync::broadcast;
 use v1::server_to_client;
@@ -86,7 +86,7 @@ async fn main() {
     );
 
     // Instantiate a new `Upstream` (SV2 Pool)
-    let upstream = upstream_sv2::Upstream::new(
+    let upstream = match upstream_sv2::Upstream::new(
         upstream_addr,
         proxy_config.upstream_authority_pubkey,
         rx_sv2_submit_shares_ext,
@@ -98,7 +98,13 @@ async fn main() {
         target.clone(),
     )
     .await
-    .unwrap();
+    {
+        Ok(upstream) => upstream,
+        Err(e) => {
+            error!("Failed to create upstream: {}", e);
+            return;
+        }
+    };
 
     // Connect to the SV2 Upstream role
     match upstream_sv2::Upstream::connect(
@@ -116,15 +122,21 @@ async fn main() {
     }
 
     // Start receiving messages from the SV2 Upstream role
-    upstream_sv2::Upstream::parse_incoming(upstream.clone());
+    if let Err(e) = upstream_sv2::Upstream::parse_incoming(upstream.clone()) {
+        error!("failed to create sv2 parser: {}", e);
+        return;
+    }
 
     debug!("Finished starting upstream listener");
     // Start task handler to receive submits from the SV1 Downstream role once it connects
-    upstream_sv2::Upstream::handle_submit(upstream.clone());
+    if let Err(e) = upstream_sv2::Upstream::handle_submit(upstream.clone()) {
+        error!("Failed to create submit handler: {}", e);
+        return;
+    }
 
     // Receive the extranonce information from the Upstream role to send to the Downstream role
     // once it connects also used to initialize the bridge
-    let extended_extranonce = rx_sv2_extranonce.recv().await.unwrap();
+    let (extended_extranonce, up_id) = rx_sv2_extranonce.recv().await.unwrap();
 
     loop {
         let target: [u8; 32] = target.safe_lock(|t| t.clone()).unwrap().try_into().unwrap();
@@ -144,6 +156,7 @@ async fn main() {
         status::Sender::Bridge(tx_status.clone()),
         extended_extranonce,
         target,
+        up_id,
     )));
     proxy::Bridge::start(b.clone());
 
@@ -171,10 +184,10 @@ async fn main() {
             interrupt_signal = interrupt_signal_future => {
                 match interrupt_signal {
                     Ok(()) => {
-                        println!("Interrupt received!");
+                        info!("Interrupt received");
                     },
                     Err(err) => {
-                        eprintln!("Unable to listen for interrupt signal: {}", err);
+                        error!("Unable to listen for interrupt signal: {}", err);
                         // we also shut down in case of error
                     },
                 }
