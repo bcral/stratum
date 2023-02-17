@@ -109,7 +109,7 @@
                     "conditions": [
                         {
                             "output_string": "Listening for encrypted connection on: 0.0.0.0:34254",
-                            "output_location": "StdOut",
+                            "output_location": "StdErr",
                             "condition": true
                         }
                     ],
