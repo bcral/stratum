@@ -300,12 +300,12 @@ More information on underlying dependancies here: https://doc.rust-lang.org/rust
 ### Including code coverage in command
 
 Example of llvm-cov code coverage run with pool setup_command
+llvm-cov requires a minimum of rustc 1.60.0 and LLVM 13.0.0
 
 ```json
         {
             "command": "cargo",
             "args": [
-                        "+stable",
                         "llvm-cov",
                         "--no-report",
                         "run",
@@ -319,7 +319,6 @@ Example of llvm-cov code coverage run with pool setup_command
         },
 ```
 
-`"+stable"` is used to ensure rustc is running in the correct toolchain.  This is not required if your default is version 1.60+.
 `"--no-report"` caches the results in the background until the end of the test.  It also allows you collect coverage data from other processes in parallel by adding `"llv-cov --no-report"`, and all report data is reflected in the final report. 
 
 To generate the report, execute the `llvm-cov report` command in the cleanup_commands.  This example adds an output file path(from project root), the output file name and type, and paths to ignore in the report.
@@ -329,7 +328,6 @@ To generate the report, execute the `llvm-cov report` command in the cleanup_com
         {
             "command": "cargo",
             "args": [
-                        "+stable",
                         "llvm-cov",
                         "--ignore-filename-regex",
                         "utils/|experimental/|protocols/",

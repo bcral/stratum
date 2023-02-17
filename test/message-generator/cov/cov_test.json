@@ -1,6 +1,15 @@
 {
     "doc": [
-        "What this test does:"
+        "What this test does:",
+        "1) launch SRI pool with llvm-cov arguments(no report - see cargo-llvm-cov for options)",
+        "2) send SetupConnection to the pool",
+        "3) check that SetupConnectionSuccess is received",
+        "4) send OpenStandardMiningChannel with request id 89",
+        "5) check that NewExtendedJob is received",
+        "6) check that NewPrevHash is received",
+        "7) check that OpenStandardMiningChannelSuccess with request 89 is received",
+        "8) kill pool role to allow report to be generated",
+        "9) generate report with what to ignore and where to output the report(see cargo-llvm-cov for options)"
     ],
     "common_messages": [
         {
@@ -113,7 +122,7 @@
                             "condition": true
                         }
                     ],
-                    "timer_secs": 120,
+                    "timer_secs": 240,
                     "warn_no_panic": false
                 }
             }
