@@ -1,6 +1,6 @@
 {
     "doc": [
-        "What this test does:",
+        "What this test does:"
     ],
     "common_messages": [
         {
@@ -64,7 +64,7 @@
                     "value": "0x01"
                 }
             ],
-            "actiondoc": ""
+            "actiondoc": "something"
         },
         {
             "message_ids": ["open_standard_mining_channel"],
@@ -88,7 +88,7 @@
                     "value": "0x1f"
                 }
             ],
-            "actiondoc": ""
+            "actiondoc": "something"
         }
         
     ],
@@ -96,6 +96,7 @@
         {
             "command": "cargo",
             "args": [
+                        "llvm-cov",
                         "run",
                         "-p",
                         "pool",
