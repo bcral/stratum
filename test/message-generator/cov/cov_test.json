@@ -95,8 +95,7 @@
     "setup_commands": [
         {
             "command": "cargo",
-            "args": [
-                        "llvm-cov",
+            "args": [   "llvm-cov",
                         "--no-report",
                         "run",
                         "-p",
@@ -123,6 +122,11 @@
     "execution_commands": [
     ],
     "cleanup_commands": [
+        {
+            "command": "pkill",
+            "args":  ["pool", "-SIGINT"],
+            "conditions": "None"
+        },
         {
             "command": "cargo",
             "args": [

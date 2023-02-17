@@ -57,7 +57,7 @@ jobs:
 
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly
+          toolchain: 1.60.0
           override: true
           components: llvm-tools-preview
 
@@ -76,6 +76,10 @@ jobs:
       - name: Run mg codecov tests
         run: sh ./mg-codecov-tests.sh
 
+
+      - name: Open file
+        run: head -n 20 target/cobertura.xml | cat
+
       - name: Archive MG code coverage results
         uses: actions/upload-artifact@v3
         with:
@@ -84,9 +88,6 @@ jobs:
 
       - name: Log data from rustc 4
         run: rustc -Vv
-
-      - name: Open file
-        run: cat target/cobertura.xml
 
   # codecov:
     # needs: message-generator-test
