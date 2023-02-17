@@ -113,7 +113,7 @@
                             "condition": true
                         }
                     ],
-                    "timer_secs": 180,
+                    "timer_secs": 50,
                     "warn_no_panic": false
                 }
             }
