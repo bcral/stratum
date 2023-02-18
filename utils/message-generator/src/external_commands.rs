@@ -234,7 +234,7 @@ impl ExternalCommandConditions {
                 if self.get_warn_no_panic() {
                     Err::<(), ()>(())
                 } else {
-                    panic!("TIMER RAN OUT!!");
+                    panic!();
                 };
             })
     }
