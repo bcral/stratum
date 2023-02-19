@@ -21,8 +21,9 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
-    name: Test Coverage
+  tarpaulin-test:
+
+    name: Tarpaulin Test
     runs-on: ubuntu-latest
     container:
       image: xd009642/tarpaulin:develop-nightly
@@ -35,7 +36,62 @@ jobs:
         run: |
           cargo +nightly tarpaulin --verbose --features prop_test noise_sv2 fuzz with_buffer_pool async_std debug tokio with_tokio derive_codec_sv2 binary_codec_sv2 default core --lib --exclude-files examples/*,utils/message-generator/* --timeout 120 --fail-under 30 --out Xml
 
+      - name: Archive Tarpaulin code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: tarpaulin-coverage-report
+          path: cobertura.xml
+
+  message-generator-test:
+    needs: tarpaulin-test
+
+    name: MG Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.60.0
+          override: true
+          components: llvm-tools-preview
+
+      - name: Log data from rustc
+        run: rustc -Vv
+
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      - name: Run mg codecov tests
+        run: sh ./mg-codecov-tests.sh
+
+      - name: Open file
+        run: head -n 20 target/cobertura.xml | cat
+
+      - name: Archive MG code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: mg-coverage-report
+          path: target/cobertura.xml
+
+  codecov:
+    needs: message-generator-test
+
+    name: Codecov Upload
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
+
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v2
         with:
+          files: ./tarpaulin-coverage-report/cobertura.xml,./mg-coverage-report/cobertura.xml
           fail_ci_if_error: true
