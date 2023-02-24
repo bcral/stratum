@@ -100,8 +100,12 @@
                     "value": [
                         "MiningProtocol",
                         "OpenStandardMiningChannelSuccess",
-                        "request_id",
-                        {"U32": 89}
+                        [
+                            [
+                                "request_id",
+                                {"U32": 89}
+                            ]
+                        ]
                     ]
                 },
                 {
@@ -170,7 +174,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "target/cobertura.xml",
+                    "target/cov-cobertura.xml",
                     "report"
             ],
             "conditions": {
