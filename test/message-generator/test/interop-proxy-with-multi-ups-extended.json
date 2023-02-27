@@ -22,7 +22,7 @@
                         "--no-report",
                         "run",
                         "-p",
-                        "pool",
+                        "pool_sv2",
                         "--",
                         "-c",
                         "./test/config/pool-config-sri-tp.toml"
@@ -48,7 +48,7 @@
                         "--no-report",
                         "run",
                         "-p",
-                        "pool",
+                        "pool_sv2",
                         "--",
                         "-c",
                         "./test/config/pool-config-sri-tp-different-port.toml"
@@ -74,7 +74,7 @@
                         "--no-report",
                         "run",
                         "-p",
-                        "mining-proxy",
+                        "mining_proxy_sv2",
                         "--",
                         "-c",
                         "./test/config/proxy-config-test-multiple-upstreams-extended.toml"
