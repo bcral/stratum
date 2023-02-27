@@ -130,7 +130,8 @@
     "setup_commands": [
         {
             "command": "cargo",
-            "args": [   "llvm-cov",
+            "args": [   
+                        "llvm-cov",
                         "--no-report",
                         "run",
                         "-p",

@@ -91,7 +91,17 @@ impl Executor {
                     process,
                 }
             }
-            (None, None) => std::process::exit(0),
+            (None, None) =>  {
+                Self {
+                    send_to_down: None,
+                    recv_from_down: None,
+                    send_to_up: None,
+                    recv_from_up: None,
+                    actions: test.actions,
+                    cleanup_commmands: test.cleanup_commmands,
+                    process,
+                }
+            }
         }
     }
 
@@ -411,6 +421,12 @@ impl Executor {
                 }
             }
         }
+        for child in self.process {
+            if let Some(mut child) = child {
+                child.kill().await;
+            }
+        }
+
         for command in self.cleanup_commmands {
             os_command(
                 &command.command,
@@ -423,11 +439,6 @@ impl Executor {
             .wait()
             .await
             .unwrap();
-        }
-        for child in self.process {
-            if let Some(mut child) = child {
-                child.start_kill().unwrap()
-            }
         }
     }
 }
