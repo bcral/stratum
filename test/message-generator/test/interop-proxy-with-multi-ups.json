@@ -161,12 +161,12 @@
     "cleanup_commands": [
         {
             "command": "pkill",
-            "args":  ["pool", "-SIGINT"],
+            "args":  ["pool_sv2", "-SIGINT"],
             "conditions": "None"
         },
         {
             "command": "pkill",
-            "args":  ["mining-proxy", "-SIGINT"],
+            "args":  ["mining_proxy_sv2", "-SIGINT"],
             "conditions": "None"
         },
         {
@@ -182,7 +182,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "target/interop-proxy-with-multi-ups-cobertura.xml",
+                    "target/tmp/interop-proxy-with-multi-ups-cobertura.xml",
                     "report"
             ],
             "conditions": {

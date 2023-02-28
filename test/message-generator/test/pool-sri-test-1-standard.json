@@ -181,7 +181,7 @@
     "cleanup_commands": [
         {
             "command": "pkill",
-            "args":  ["pool", "-SIGINT"],
+            "args":  ["pool_sv2", "-SIGINT"],
             "conditions": "None"
         },
         {
@@ -192,7 +192,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "target/pool-sri-test-1-standard-cobertura.xml",
+                    "target/tmp/pool-sri-test-1-standard-cobertura.xml",
                     "report"
             ],
             "conditions": {

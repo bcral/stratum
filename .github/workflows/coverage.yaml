@@ -68,6 +68,9 @@ jobs:
       - name: Run mg codecov tests
         run: sh ./mg-codecov-tests.sh
 
+      - name: Run message generator tests
+        run: sh ./message-generator-tests.sh
+
       - name: Open file
         run: head -n 20 target/cobertura.xml | cat
 
@@ -75,7 +78,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mg-coverage-report
-          path: target/cobertura.xml
+          path: target/tmp/
 
   codecov:
     needs: message-generator-test
@@ -94,5 +97,8 @@ jobs:
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v2
         with:
-          files: ./tarpaulin-coverage-report/cobertura.xml,./mg-coverage-report/cobertura.xml
+          files: ./tarpaulin-coverage-report/cobertura.xml,./mg-coverage-report/
           fail_ci_if_error: true
+          max_attempts: 3
+          retry_on: error
+          timeout_seconds: 60

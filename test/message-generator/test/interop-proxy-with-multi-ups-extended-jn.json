@@ -144,6 +144,16 @@
                     "warn_no_panic": false
                 }
             }
+        },
+        {
+            "command": "kill",
+            "args": ["1"],
+            "conditions": "None"
+        },
+        {
+            "command": "kill",
+            "args": ["2"],
+            "conditions": "None"
         }
     ],
     "execution_commands": [
@@ -151,12 +161,12 @@
     "cleanup_commands": [
         {
             "command": "pkill",
-            "args":  ["pool", "-SIGINT"],
+            "args":  ["pool_sv2", "-SIGINT"],
             "conditions": "None"
         },
         {
             "command": "pkill",
-            "args":  ["mining-proxy", "-SIGINT"],
+            "args":  ["mining_proxy_sv2", "-SIGINT"],
             "conditions": "None"
         },
         {
@@ -172,7 +182,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "target/pool-sri-test-extended_jn-cobertura.xml",
+                    "target/tmp/pool-sri-test-extended_jn-cobertura.xml",
                     "report"
             ],
             "conditions": {
