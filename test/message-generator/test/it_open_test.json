@@ -45,6 +45,11 @@
         }
     ],
     "cleanup_commands": [
+        {
+            "command": "pkill",
+            "args":  ["-f", "mining-device", "-SIGINT"],
+            "conditions": "None"
+        }
     ],
     "role": "server",
     "upstream": {

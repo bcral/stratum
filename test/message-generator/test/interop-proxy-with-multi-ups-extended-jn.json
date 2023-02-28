@@ -166,12 +166,12 @@
         },
         {
             "command": "pkill",
-            "args":  ["mining_proxy_sv2", "-SIGINT"],
+            "args":  ["-f", "mining_proxy_sv2", "-SIGINT"],
             "conditions": "None"
         },
         {
             "command": "pkill",
-            "args":  ["mining-device", "-SIGINT"],
+            "args":  ["-f", "mining-device", "-SIGINT"],
             "conditions": "None"
         },
         {
