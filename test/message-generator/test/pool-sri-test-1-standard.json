@@ -192,7 +192,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "target/tmp/pool-sri-test-1-standard-cobertura.xml",
+                    "target/pool-sri-test-1-standard-cobertura.xml",
                     "report"
             ],
             "conditions": {

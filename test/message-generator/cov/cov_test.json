@@ -190,7 +190,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "target/tmp/cobertura.xml",
+                    "target/cobertura.xml",
                     "report"
             ],
             "conditions": {

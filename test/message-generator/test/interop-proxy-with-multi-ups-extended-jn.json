@@ -182,7 +182,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "target/tmp/pool-sri-test-extended_jn-cobertura.xml",
+                    "target/pool-sri-test-extended_jn-cobertura.xml",
                     "report"
             ],
             "conditions": {

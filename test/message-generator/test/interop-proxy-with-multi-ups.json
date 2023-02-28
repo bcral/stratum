@@ -182,7 +182,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "target/tmp/interop-proxy-with-multi-ups-cobertura.xml",
+                    "target/interop-proxy-with-multi-ups-cobertura.xml",
                     "report"
             ],
             "conditions": {
