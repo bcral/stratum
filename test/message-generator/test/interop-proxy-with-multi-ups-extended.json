@@ -180,9 +180,9 @@
                     "llvm-cov",
                     "--ignore-filename-regex",
                     "utils/|experimental/|protocols/",
-                    "--cobertura",
+                    "--json",
                     "--output-path",
-                    "target/interop-proxy-with-multi-ups-extended-cobertura.xml",
+                    "target/interop-proxy-with-multi-ups-extended.json",
                     "report"
             ],
             "conditions": {
