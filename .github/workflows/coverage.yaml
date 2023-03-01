@@ -72,19 +72,16 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
-          path: 'target/cobertura.xml'
+          path: 'target/mg-standard.json'
 
       - name: Run message generator tests
         run: sh ./message-generator-tests.sh
-
-      - name: Open file
-        run: head -n 20 target/cobertura.xml | cat
 
       - name: Archive MG code coverage results
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
-          path: 'target/*.xml'
+          path: 'target/*.json'
 
   codecov:
     needs: message-generator-test
