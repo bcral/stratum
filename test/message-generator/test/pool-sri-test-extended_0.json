@@ -106,7 +106,7 @@
                     "llvm-cov",
                     "--ignore-filename-regex",
                     "utils/|experimental/|protocols/",
-                    "--xml",
+                    "--cobertura",
                     "--output-path",
                     "target/pool-sri-test-extended_0.xml",
                     "report"
