@@ -92,7 +92,7 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
@@ -101,8 +101,8 @@ jobs:
         run: ls -R
 
       - name: Upload to codecov.io
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
-          path: coverage-report/*.xml
+          files: coverage-report/*.xml
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
