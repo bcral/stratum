@@ -78,7 +78,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mg-coverage-report
-          path: target/
+          path: target/*.xml
 
   codecov:
     needs: message-generator-test
