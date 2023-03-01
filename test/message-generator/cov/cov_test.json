@@ -190,7 +190,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "target/cobertura.xml",
+                    "target/mg-cobertura.xml",
                     "report"
             ],
             "conditions": {
