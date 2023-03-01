@@ -94,10 +94,10 @@ jobs:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
 
+      - name: Display structure of downloaded files
+        run: ls -R
+
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v2
         with:
           fail_ci_if_error: true
-          max_attempts: 3
-          retry_on: error
-          timeout_seconds: 60
