@@ -97,7 +97,7 @@ jobs:
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v2
         with:
-          files: ./tarpaulin-coverage-report/cobertura.xml,./mg-coverage-report/
+          files: ./tarpaulin-coverage-report/cobertura.xml, ./mg-coverage-report/*.xml
           fail_ci_if_error: true
           max_attempts: 3
           retry_on: error
