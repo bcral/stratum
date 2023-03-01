@@ -190,9 +190,9 @@
                     "llvm-cov",
                     "--ignore-filename-regex",
                     "utils/|experimental/|protocols/",
-                    "--json",
+                    "--xml",
                     "--output-path",
-                    "target/pool-sri-test-1-standard.json",
+                    "target/pool-sri-test-1-standard.xml",
                     "report"
             ],
             "conditions": {

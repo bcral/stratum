@@ -139,9 +139,9 @@
                     "llvm-cov",
                     "--ignore-filename-regex",
                     "utils/|experimental/|protocols/",
-                    "--json",
+                    "--xml",
                     "--output-path",
-                    "target/pool-sri-test-extended_1.json",
+                    "target/pool-sri-test-extended_1.xml",
                     "report"
             ],
             "conditions": {

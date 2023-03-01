@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
-          path: 'target/mg-standard.json'
+          path: 'target/mg-standard.xml'
 
       - name: Run message generator tests
         run: sh ./message-generator-tests.sh
@@ -81,7 +81,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
-          path: 'target/*.json'
+          path: 'target/*.xml'
 
   codecov:
     needs: message-generator-test

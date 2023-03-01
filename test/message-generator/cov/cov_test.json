@@ -188,9 +188,9 @@
                     "llvm-cov",
                     "--ignore-filename-regex",
                     "utils/|experimental/|protocols/",
-                    "--json",
+                    "--xml",
                     "--output-path",
-                    "target/mg-standard.json",
+                    "target/mg-standard.xml",
                     "report"
             ],
             "conditions": {
