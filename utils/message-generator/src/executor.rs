@@ -25,7 +25,12 @@ impl Executor {
             if command.command == "kill" {
                 let index: usize = command.args[0].parse().unwrap();
                 let p = process[index].as_mut();
+                let pid = p.as_ref().unwrap().id();
                 p.unwrap().kill().await;
+                match pid {
+                    Some(u32) => println!("Process closed!"),
+                    None      => println!("Still runnin!")
+                }
             } else if command.command == "sleep" {
                 let ms: u64 = command.args[0].parse().unwrap();
                 tokio::time::sleep(std::time::Duration::from_millis(ms)).await;
@@ -429,7 +434,12 @@ impl Executor {
         }
         for child in self.process {
             if let Some(mut child) = child {
+                let pid = &child.id();
                 child.kill().await;
+                match pid {
+                    Some(u32) => println!("Process closed!"),
+                    None      => println!("Still runnin!")
+                }
             }
         }
 
