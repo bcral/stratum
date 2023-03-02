@@ -25,11 +25,15 @@ impl Executor {
             if command.command == "kill" {
                 let index: usize = command.args[0].parse().unwrap();
                 let p = process[index].as_mut();
-                let pid = p.as_ref().unwrap().id();
+                let mut pid = p.as_ref().unwrap().id();
+                // Kill process
                 p.unwrap().kill().await;
-                match pid {
-                    Some(u32) => println!("Process closed!"),
-                    None      => println!("Still runnin!")
+                // Wait until the process is killed to move on
+                while let Some(i) = pid {
+                    let p = process[index].as_mut();
+                    pid = p.as_ref().unwrap().id();
+                    p.unwrap().kill().await;
+                    tokio::time::sleep(std::time::Duration::from_millis(1000)).await;
                 }
             } else if command.command == "sleep" {
                 let ms: u64 = command.args[0].parse().unwrap();
@@ -434,11 +438,9 @@ impl Executor {
         }
         for child in self.process {
             if let Some(mut child) = child {
-                let pid = &child.id();
-                child.kill().await;
-                match pid {
-                    Some(u32) => println!("Process closed!"),
-                    None      => println!("Still runnin!")
+                while let Some(i) = &child.id() {
+                    child.kill().await;
+                    tokio::time::sleep(std::time::Duration::from_millis(1000)).await;
                 }
             }
         }
