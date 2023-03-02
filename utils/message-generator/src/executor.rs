@@ -137,7 +137,13 @@ impl Executor {
                 }
             }
             for result in &action.result {
-                let message = recv.recv().await.unwrap();
+                let message = match recv.recv().await {
+                    Ok(msg) => msg,
+                    Err(e) => {
+                        println!("Unexpected message recieved. Expected = {:?}, Received = {:?}", result, e);   
+                        panic!();
+                    }
+                };
                 let mut message: Sv2Frame<AnyMessage<'static>, _> = message.try_into().unwrap();
                 println!("RECV {:#?}", message);
                 let header = message.get_header().unwrap();
