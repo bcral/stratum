@@ -220,7 +220,10 @@ impl ExternalCommandConditions {
                     println!("STD OUT: {}", line);
                     line
                 }
-                None => panic!("Stdout err"),
+                None => {
+                    println!("Nothing was received in StdOut");
+                    panic!()
+                }
             };
             if self.check_condition(line, OutputLocation::StdOut) {
                 return;
@@ -234,6 +237,7 @@ impl ExternalCommandConditions {
                 if self.get_warn_no_panic() {
                     Err::<(), ()>(())
                 } else {
+                    println!("MG timed out on {:?}", std_out);
                     panic!()
                 };
             })
@@ -247,7 +251,10 @@ impl ExternalCommandConditions {
                     println!("STD ERR: {}", line);
                     line
                 }
-                None => panic!("Stderr err"),
+                None => {
+                    println!("Nothing was received in StdErr");
+                    panic!()
+                }
             };
             if self.check_condition(line, OutputLocation::StdErr) {
                 return;
@@ -261,6 +268,7 @@ impl ExternalCommandConditions {
                 if self.get_warn_no_panic() {
                     Err::<(), ()>(())
                 } else {
+                    println!("MG timed out on {:?}", std_err);
                     panic!()
                 };
             })

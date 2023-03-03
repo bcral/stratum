@@ -179,7 +179,7 @@
     "cleanup_commands": [
         {
             "command": "pkill",
-            "args":  ["pool", "-SIGINT"],
+            "args":  ["-f", "pool_sv2", "-SIGINT"],
             "conditions": "None"
         },
         {
@@ -190,7 +190,7 @@
                     "utils/|experimental/|protocols/",
                     "--cobertura",
                     "--output-path",
-                    "target/cobertura.xml",
+                    "target/mg-standard.xml",
                     "report"
             ],
             "conditions": {

@@ -8,6 +8,9 @@ use codec_sv2::{Frame, StandardEitherFrame as EitherFrame, Sv2Frame};
 use roles_logic_sv2::parsers::AnyMessage;
 use std::convert::TryInto;
 
+use std::time::Duration;
+use tokio::time::timeout;
+
 pub struct Executor {
     send_to_down: Option<Sender<EitherFrame<AnyMessage<'static>>>>,
     recv_from_down: Option<Receiver<EitherFrame<AnyMessage<'static>>>>,
@@ -25,7 +28,19 @@ impl Executor {
             if command.command == "kill" {
                 let index: usize = command.args[0].parse().unwrap();
                 let p = process[index].as_mut();
+                let mut pid = p.as_ref().unwrap().id();
+                // Kill process
                 p.unwrap().kill().await;
+                // Wait until the process is killed to move on
+                while let Some(i) = pid {
+                    let p = process[index].as_mut();
+                    pid = p.as_ref().unwrap().id();
+                    println!("Child still alive (kill command) @{:?}", pid);
+                    p.unwrap().kill().await;
+                    tokio::time::sleep(std::time::Duration::from_millis(1000)).await;
+                }
+                let p = process[index].as_mut();
+                println!("Child killed (kill command) @{:?}", &p.as_ref().unwrap().id());
             } else if command.command == "sleep" {
                 let ms: u64 = command.args[0].parse().unwrap();
                 tokio::time::sleep(std::time::Duration::from_millis(ms)).await;
@@ -91,7 +106,17 @@ impl Executor {
                     process,
                 }
             }
-            (None, None) => std::process::exit(0),
+            (None, None) =>  {
+                Self {
+                    send_to_down: None,
+                    recv_from_down: None,
+                    send_to_up: None,
+                    recv_from_up: None,
+                    actions: test.actions,
+                    cleanup_commmands: test.cleanup_commmands,
+                    process,
+                }
+            }
         }
     }
 
@@ -127,7 +152,14 @@ impl Executor {
                 }
             }
             for result in &action.result {
-                let message = recv.recv().await.unwrap();
+                // Set a timeout for receiving messages
+                let message = match timeout(Duration::from_secs(10), recv.recv()).await.unwrap() {
+                    Ok(msg) => msg,
+                    Err(e) => {
+                        println!("Error value received = {:?}", e);   
+                        panic!();
+                    }
+                };
                 let mut message: Sv2Frame<AnyMessage<'static>, _> = message.try_into().unwrap();
                 println!("RECV {:#?}", message);
                 let header = message.get_header().unwrap();
@@ -411,6 +443,17 @@ impl Executor {
                 }
             }
         }
+        for child in self.process {
+            if let Some(mut child) = child {
+                while let Some(i) = &child.id() {
+                    println!("Child still alive @{:?}", &child.id());
+                    child.kill().await;
+                    tokio::time::sleep(std::time::Duration::from_millis(1000)).await;
+                }
+                println!("Child killed @{:?}", &child.id());
+            }
+        }
+
         for command in self.cleanup_commmands {
             os_command(
                 &command.command,
@@ -423,11 +466,6 @@ impl Executor {
             .wait()
             .await
             .unwrap();
-        }
-        for child in self.process {
-            if let Some(mut child) = child {
-                child.start_kill().unwrap()
-            }
         }
     }
 }
