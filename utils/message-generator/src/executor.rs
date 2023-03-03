@@ -152,10 +152,11 @@ impl Executor {
                 }
             }
             for result in &action.result {
+                // Set a timeout for receiving messages
                 let message = match timeout(Duration::from_secs(10), recv.recv()).await.unwrap() {
                     Ok(msg) => msg,
                     Err(e) => {
-                        println!("Unexpected message recieved. Expected = {:?}, Received = {:?}", result, e);   
+                        println!("Error value received = {:?}", e);   
                         panic!();
                     }
                 };
