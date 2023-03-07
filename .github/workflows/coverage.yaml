@@ -40,7 +40,7 @@ jobs:
       - name: Archive Tarpaulin code coverage results
         uses: actions/upload-artifact@v3
         with:
-          name: coverage-report
+          name: tarpaulin-report
           path: cobertura.xml
 
   message-generator-test:
@@ -103,6 +103,6 @@ jobs:
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v3
         with:
-          files: coverage-report/*.xml
+          files: coverage-report/*.xml, tarpaulin-report/*.xml
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
