@@ -514,7 +514,7 @@ pub async fn listen_for_downstream_mining(address: SocketAddr) {
         });
 
         if downstream_task.is_finished() {
-            break
+            break;
         }
     }
 }
