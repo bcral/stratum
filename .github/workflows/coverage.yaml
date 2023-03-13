@@ -55,7 +55,7 @@ jobs:
       
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: 1.60.0
+          toolchain: 1.65.0
           override: true
           components: llvm-tools-preview
 
@@ -64,15 +64,6 @@ jobs:
 
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
-
-      # - name: Run mg codecov tests
-      #   run: sh ./mg-codecov-tests.sh
-
-      # - name: Archive MG code coverage results
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: coverage-report
-      #     path: 'target/mg-coverage-standard.xml'
 
       - name: Run message generator tests
         run: sh ./message-generator-tests.sh
