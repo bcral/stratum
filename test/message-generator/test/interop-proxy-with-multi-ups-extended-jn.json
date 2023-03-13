@@ -21,6 +21,7 @@
             "args": [
                         "llvm-cov",
                         "--no-report",
+                        "--all-features",
                         "run",
                         "-p",
                         "pool_sv2",
@@ -47,6 +48,7 @@
             "args": [
                         "llvm-cov",
                         "--no-report",
+                        "--all-features",
                         "run",
                         "-p",
                         "pool_sv2",
@@ -78,6 +80,7 @@
             "args": [
                         "llvm-cov",
                         "--no-report",
+                        "--all-features",
                         "run",
                         "-p",
                         "mining_proxy_sv2",
