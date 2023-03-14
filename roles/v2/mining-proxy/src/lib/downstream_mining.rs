@@ -488,7 +488,7 @@ pub async fn listen_for_downstream_mining(address: SocketAddr) {
             PlainConnection::new(stream).await;
         let node = DownstreamMiningNode::new(receiver, sender, ids.next());
 
-        let downstream_task = task::spawn(async move {
+        task::spawn(async move {
             let mut incoming: StdFrame = node.receiver.recv().await.unwrap().try_into().unwrap();
             let message_type = incoming.get_header().unwrap().msg_type();
             let payload = incoming.payload();
@@ -512,10 +512,6 @@ pub async fn listen_for_downstream_mining(address: SocketAddr) {
                 _ => panic!(),
             }
         });
-
-        if downstream_task.is_finished() {
-            break;
-        }
     }
 }
 
