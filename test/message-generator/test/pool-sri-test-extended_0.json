@@ -2,7 +2,8 @@
     "doc": [
         "This test does",
         "Opens extended channel with the pool",
-        "Checks that NewMiningJob and SetNewPrevHash is sent by the pool"
+        "Checks that NewMiningJob and SetNewPrevHash is sent by the pool",
+        "Generates code coverage report for the pool"
     ],
     "mining_messages": [
         {
@@ -72,6 +73,8 @@
        {
             "command": "cargo",
             "args": [
+                        "llvm-cov",
+                        "--no-report",
                         "run",
                         "-p",
                         "pool_sv2",
@@ -97,6 +100,11 @@
     "execution_commands": [
     ],
     "cleanup_commands": [
+        {
+            "command": "pkill",
+            "args":  ["-f", "pool_sv2", "-SIGINT"],
+            "conditions": "None"
+        }
     ],
     "role": "client",
     "downstream": {
