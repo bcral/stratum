@@ -12,4 +12,4 @@ done
 
 cd ../../
 
-cargo llvm-cov --ignore-filename-regex "utils/message-generator|utils/buffer|experimental/" --cobertura --output-path "target/mg_coverage_report.xml" report
+cargo llvm-cov --ignore-filename-regex "utils/message-generator/|examples/|experimental/" --cobertura --output-path "target/mg_coverage_report.xml" report
