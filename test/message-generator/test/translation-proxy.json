@@ -67,7 +67,7 @@
                 "WithConditions": {
                     "conditions": [
                         {
-                            "output_string": "2mtranslator_sv2",
+                            "output_string": "translator_sv2",
                             "output_location": "StdOut",
                             "condition": true
                         }
@@ -81,6 +81,11 @@
     "execution_commands": [
     ],
     "cleanup_commands": [
+        {
+            "command": "pkill",
+            "args":  ["-f", "translator_sv2", "-SIGINT"],
+            "conditions": "None"
+        }
     ],
     "role": "server",
     "upstream": {

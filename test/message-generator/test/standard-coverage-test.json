@@ -183,7 +183,7 @@
     "cleanup_commands": [
         {
             "command": "pkill",
-            "args":  ["pool", "-SIGINT"],
+            "args":  ["pool_sv2", "-SIGINT"],
             "conditions": "None"
         }
     ],
