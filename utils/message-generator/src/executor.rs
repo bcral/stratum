@@ -119,7 +119,8 @@ impl Executor {
     }
 
     pub async fn execute(self) {
-        for action in self.actions {
+        let mut actions = self.actions.into_iter().peekable();
+        while let Some(action) = actions.next() {
             if let Some(T) = action.actiondoc {
                 println!("{}", T);
             }
@@ -428,7 +429,14 @@ impl Executor {
                     ActionResult::None => todo!(),
                 }
             }
+
+            if !actions.peek().is_some() {
+                // Close channels to force everything to close.
+                sender.close();
+            }
         }
+        tokio::time::sleep(std::time::Duration::from_millis(5000)).await;
+
         for command in self.cleanup_commmands {
             os_command(
                 &command.command,
@@ -442,6 +450,7 @@ impl Executor {
             .await
             .unwrap();
         }
+
         for child in self.process {
             if let Some(mut child) = child {
                 while let Some(i) = &child.id() {

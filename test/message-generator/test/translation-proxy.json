@@ -61,7 +61,6 @@
                         "--",
                         "-c",
                         "./test/config/tproxy-config.toml"
-
             ],
             "conditions": {
                 "WithConditions": {
@@ -81,11 +80,6 @@
     "execution_commands": [
     ],
     "cleanup_commands": [
-        {
-            "command": "pkill",
-            "args":  ["-f", "translator_sv2", "-SIGINT"],
-            "conditions": "None"
-        }
     ],
     "role": "server",
     "upstream": {

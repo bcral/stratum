@@ -8,6 +8,8 @@ cargo llvm-cov clean
 for entry in `ls $search_dir`; do
     echo $entry
     cargo run -- $search_dir$entry || { echo 'mg test failed' ; exit 1; }
+    pid=$!
+    wait $pid
 done
 
 cd ../../
