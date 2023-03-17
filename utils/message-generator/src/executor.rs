@@ -435,7 +435,6 @@ impl Executor {
                 sender.close();
             }
         }
-        tokio::time::sleep(std::time::Duration::from_millis(5000)).await;
 
         for command in self.cleanup_commmands {
             os_command(
