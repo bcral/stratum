@@ -1,7 +1,7 @@
 {
     "doc": [
         "This test does",
-        "Launch 2 pool on differnet address",
+        "Launch 2 pools on differnet address",
         "Launch mining-proxy",
         "Connect proxy to the 2 above pool",
         "Try connect proxy to non exsistent pool proxy must not panic",
@@ -67,6 +67,11 @@
                     "warn_no_panic": false
                 }
             }
+        },
+        {
+            "command": "sleep",
+            "args": ["1000"],
+            "conditions": "None"
         },
         {
             "command": "cargo",
@@ -174,31 +179,6 @@
             "command": "pkill",
             "args":  ["-f", "mining-device", "-SIGINT"],
             "conditions": "None"
-        },
-        {
-            "command": "cargo",
-            "args": [
-                    "llvm-cov",
-                    "--ignore-filename-regex",
-                    "utils/|experimental/|protocols/",
-                    "--cobertura",
-                    "--output-path",
-                    "target/interop-proxy-with-multi-ups-extended_jn.xml",
-                    "report"
-            ],
-            "conditions": {
-                "WithConditions": {
-                    "conditions": [
-                        {
-                            "output_string": "Finished report saved to ",
-                            "output_location": "StdErr",
-                            "condition": true
-                        }
-                    ],
-                    "timer_secs": 240,
-                    "warn_no_panic": false
-                }
-            }
         }
     ],
     "role": "none"
